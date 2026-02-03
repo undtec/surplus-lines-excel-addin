@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surplus Lines Tax - Settings</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 320px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .header img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3de2a0;
+            box-shadow: 0 0 0 3px rgba(61, 226, 160, 0.1);
+        }
+
+        .form-group .help-text {
+            font-size: 11px;
+            color: #718096;
+            margin-top: 6px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: #3de2a0;
+            color: #1a202c;
+        }
+
+        .btn-primary:hover {
+            background: #2bc88a;
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .status {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .status.success {
+            display: block;
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status.error {
+            display: block;
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .status.info {
+            display: block;
+            background: #bee3f8;
+            color: #2a4365;
+        }
+
+        .functions-list {
+            list-style: none;
+        }
+
+        .functions-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 12px;
+        }
+
+        .functions-list li:last-child {
+            border-bottom: none;
+        }
+
+        .functions-list code {
+            background: #edf2f7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            font-size: 11px;
+        }
+
+        .functions-list .desc {
+            display: block;
+            color: #718096;
+            margin-top: 2px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 11px;
+            color: #a0aec0;
+        }
+
+        .footer a {
+            color: #3de2a0;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #f7fafc;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .connection-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #a0aec0;
+        }
+
+        .connection-status .dot.connected {
+            background: #48bb78;
+        }
+
+        .connection-status .dot.error {
+            background: #f56565;
+        }
+
+        .connection-status span {
+            font-size: 12px;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="../assets/icon-48.png" alt="Surplus Lines Tax" onerror="this.style.display='none'">
+            <h1>Surplus Lines Tax</h1>
+            <p>Excel Custom Functions</p>
+        </div>
+
+        <div class="card">
+            <h2>API Configuration</h2>
+
+            <div class="connection-status">
+                <div class="dot" id="connectionDot"></div>
+                <span id="connectionText">Not configured</span>
+            </div>
+
+            <div class="form-group">
+                <label for="apiKey">API Key</label>
+                <input type="password" id="apiKey" placeholder="Enter your API key">
+                <p class="help-text">Get your API key at <a href="https://app.surpluslinesapi.com" target="_blank">app.surpluslinesapi.com</a></p>
+            </div>
+
+            <button class="btn btn-primary" onclick="saveApiKey()">Save API Key</button>
+
+            <div id="status" class="status"></div>
+        </div>
+
+        <div class="card">
+            <h2>Available Functions (9)</h2>
+            <ul class="functions-list">
+                <li>
+                    <code>=SLTAX.CALCULATE(state, premium)</code>
+                    <span class="desc">Calculate total tax amount. Returns a single number.</span>
+                </li>
+                <li>
+                    <code>=SLTAX.DETAILS(state, premium, [multiline])</code>
+                    <span class="desc">Returns [state, premium, total_tax, total_due]. Use TRUE for vertical output.</span>
+                </li>
+                <li>
+                    <code>=SLTAX.WITHPREMIUM(state, premium)</code>
+                    <span class="desc">Returns [premium, total_tax, total_due] in 3 cells.</span>
+                </li>
+                <li>
+                    <code>=SLTAX.RATE(state)</code>
+                    <span class="desc">Get tax rate as percentage (e.g., 4.85 for 4.85%).</span>
+                </li>
+                <li>
+                    <code>=SLTAX.STATES()</code>
+                    <span class="desc">List all 53 jurisdictions (50 states + DC + PR + VI).</span>
+                </li>
+                <li>
+                    <code>=SLTAX.RATES()</code>
+                    <span class="desc">All states with rates in 2 columns: [state, rate].</span>
+                </li>
+                <li>
+                    <code>=SLTAX.RATESDETAILS()</code>
+                    <span class="desc">All states with full fee breakdown (11 columns).</span>
+                </li>
+                <li>
+                    <code>=SLTAX.HISTORICALRATE(state, date)</code>
+                    <span class="desc">Get rate for a past date (YYYY-MM-DD format).</span>
+                </li>
+                <li>
+                    <code>=SLTAX.HISTORICALRATEDETAILS(state, date, [multiline])</code>
+                    <span class="desc">Full historical rate info with effective dates.</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Quick Test</h2>
+            <p style="font-size: 12px; color: #718096; margin-bottom: 12px;">Try this formula in any cell:</p>
+            <code style="display: block; background: #edf2f7; padding: 12px; border-radius: 6px; font-size: 13px;">=SLTAX.CALCULATE("Texas", 10000)</code>
+            <p style="font-size: 12px; color: #718096; margin-top: 8px;">Expected result: <strong>503</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>© <a href="https://undtec.com" target="_blank">Underwriters Technologies</a></p>
+            <p><a href="https://surpluslinesapi.com/docs/" target="_blank">Documentation</a> · <a href="https://sltax.undtec.com" target="_blank">Free Calculator</a></p>
+        </div>
+    </div>
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script>
+        Office.onReady(function(info) {
+            loadApiKey();
+        });
+
+        function loadApiKey() {
+            let apiKey = null;
+
+            // Try roaming settings first
+            if (Office.context && Office.context.roamingSettings) {
+                apiKey = Office.context.roamingSettings.get('sltax_api_key');
+            }
+
+            // Fallback to localStorage
+            if (!apiKey && typeof localStorage !== 'undefined') {
+                apiKey = localStorage.getItem('sltax_api_key');
+            }
+
+            if (apiKey) {
+                document.getElementById('apiKey').value = apiKey;
+                updateConnectionStatus('connected', 'Connected');
+            } else {
+                updateConnectionStatus('', 'Not configured');
+            }
+        }
+
+        function saveApiKey() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+
+            if (!apiKey) {
+                showStatus('error', 'Please enter an API key');
+                return;
+            }
+
+            // Validate API key format
+            if (!apiKey.startsWith('slapi_') && apiKey.length < 20) {
+                showStatus('error', 'Invalid API key format');
+                return;
+            }
+
+            // Save to roaming settings
+            if (Office.context && Office.context.roamingSettings) {
+                Office.context.roamingSettings.set('sltax_api_key', apiKey);
+                Office.context.roamingSettings.saveAsync(function(result) {
+                    if (result.status === Office.AsyncResultStatus.Failed) {
+                        console.error('Failed to save to roaming settings');
+                    }
+                });
+            }
+
+            // Save to localStorage as fallback
+            if (typeof localStorage !== 'undefined') {
+                localStorage.setItem('sltax_api_key', apiKey);
+            }
+
+            // Test the API key
+            testApiKey(apiKey);
+        }
+
+        async function testApiKey(apiKey) {
+            showStatus('info', 'Testing API key...');
+
+            try {
+                const response = await fetch('https://api.surpluslinesapi.com/v1/states', {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': apiKey
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showStatus('success', 'API key saved and verified!');
+                    updateConnectionStatus('connected', 'Connected');
+                } else {
+                    showStatus('error', data.message || 'Invalid API key');
+                    updateConnectionStatus('error', 'Invalid key');
+                }
+            } catch (error) {
+                showStatus('error', 'Connection failed: ' + error.message);
+                updateConnectionStatus('error', 'Connection failed');
+            }
+        }
+
+        function showStatus(type, message) {
+            const statusEl = document.getElementById('status');
+            statusEl.className = 'status ' + type;
+            statusEl.textContent = message;
+        }
+
+        function updateConnectionStatus(status, text) {
+            const dot = document.getElementById('connectionDot');
+            const textEl = document.getElementById('connectionText');
+
+            dot.className = 'dot ' + status;
+            textEl.textContent = text;
+        }
+    </script>
+</body>
+</html>
