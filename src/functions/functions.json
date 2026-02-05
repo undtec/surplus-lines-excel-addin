@@ -32,10 +32,10 @@
       }
     },
     {
-      "id": "DETAILS",
-      "name": "DETAILS",
+      "id": "CALCULATE_DETAILS",
+      "name": "CALCULATE_DETAILS",
       "description": "Get detailed tax breakdown: state, premium, total tax, and total due",
-      "helpUrl": "https://surpluslinesapi.com/excel/#details",
+      "helpUrl": "https://surpluslinesapi.com/excel/#calculate-details",
       "parameters": [
         {
           "name": "state",
@@ -69,10 +69,10 @@
       }
     },
     {
-      "id": "WITHPREMIUM",
-      "name": "WITHPREMIUM",
+      "id": "CALCULATE_WITHPREMIUM",
+      "name": "CALCULATE_WITHPREMIUM",
       "description": "Calculate tax and return premium, total_tax, and total_due in a row",
-      "helpUrl": "https://surpluslinesapi.com/excel/#withpremium",
+      "helpUrl": "https://surpluslinesapi.com/excel/#calculate-withpremium",
       "parameters": [
         {
           "name": "state",
@@ -187,10 +187,10 @@
       }
     },
     {
-      "id": "HISTORICALRATEDETAILS",
-      "name": "HISTORICALRATEDETAILS",
+      "id": "HISTORICALRATE_DETAILS",
+      "name": "HISTORICALRATE_DETAILS",
       "description": "Get detailed historical tax rate information including all fees and effective dates",
-      "helpUrl": "https://surpluslinesapi.com/excel/#historicalratedetails",
+      "helpUrl": "https://surpluslinesapi.com/excel/#historicalrate-details",
       "parameters": [
         {
           "name": "state",
@@ -224,10 +224,10 @@
       }
     },
     {
-      "id": "RATESDETAILS",
-      "name": "RATESDETAILS",
+      "id": "RATES_DETAILS",
+      "name": "RATES_DETAILS",
       "description": "Get detailed tax rate information for all states including all fees",
-      "helpUrl": "https://surpluslinesapi.com/excel/#ratesdetails",
+      "helpUrl": "https://surpluslinesapi.com/excel/#rates-details",
       "parameters": [],
       "result": {
         "type": "any",

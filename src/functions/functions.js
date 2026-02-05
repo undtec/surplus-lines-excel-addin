@@ -9,7 +9,7 @@
  * Examples:
  *   =SLTAX.CALCULATE("Texas", 10000)
  *   =SLTAX.RATE("California")
- *   =SLTAX.DETAILS("New York", 25000)
+ *   =SLTAX.CALCULATE_DETAILS("New York", 25000)
  *
  * Get your API key: https://app.surpluslinesapi.com
  * Documentation: https://surpluslinesapi.com/excel/
@@ -114,14 +114,14 @@ async function calculate(state, premium) {
 
 /**
  * Get detailed tax breakdown including state, premium, total tax, and total due.
- * @customfunction DETAILS
+ * @customfunction CALCULATE_DETAILS
  * @param {string} state State name or abbreviation
  * @param {number} premium Premium amount in dollars
  * @param {boolean} [multiline] If true, returns data in multiple rows; if false (default), returns in one row
  * @returns {Promise<any[][]>} Array with complete tax breakdown
- * @example =SLTAX.DETAILS("California", 10000)
+ * @example =SLTAX.CALCULATE_DETAILS("California", 10000)
  * Returns (one row): California | 10000 | 318 | 10318
- * @example =SLTAX.DETAILS("California", 10000, TRUE)
+ * @example =SLTAX.CALCULATE_DETAILS("California", 10000, TRUE)
  * Returns (multiple rows): State: California, Premium: 10000, Total Tax: 318, Total Due: 10318
  */
 async function details(state, premium, multiline) {
@@ -185,11 +185,11 @@ async function details(state, premium, multiline) {
 
 /**
  * Calculate tax and return premium, total_tax, and total_due in a row.
- * @customfunction WITHPREMIUM
+ * @customfunction CALCULATE_WITHPREMIUM
  * @param {string} state State name or abbreviation
  * @param {number} premium Premium amount in dollars
  * @returns {Promise<any[][]>} Array with [premium, total_tax, total_due]
- * @example =SLTAX.WITHPREMIUM("California", 10000)
+ * @example =SLTAX.CALCULATE_WITHPREMIUM("California", 10000)
  * Returns: 10000 | 318 | 10318
  */
 async function withPremium(state, premium) {
@@ -470,12 +470,12 @@ async function historicalRate(state, date) {
 
 /**
  * Get detailed historical tax rate information for a specific state and date.
- * @customfunction HISTORICALRATEDETAILS
+ * @customfunction HISTORICALRATE_DETAILS
  * @param {string} state State name (e.g., "Texas", "Iowa")
  * @param {any} date Date in YYYY-MM-DD format or Excel date serial number
  * @param {boolean} [multiline] If true, returns data in multiple rows; if false (default), returns in one row
  * @returns {Promise<any[][]>} Array with complete historical rate breakdown
- * @example =SLTAX.HISTORICALRATEDETAILS("Texas", "2024-06-15")
+ * @example =SLTAX.HISTORICALRATE_DETAILS("Texas", "2024-06-15")
  * Returns: Texas | 2024-06-15 | 4.85% | 0.18% | ...
  */
 async function historicalRateDetails(state, date, multiline) {
@@ -573,9 +573,9 @@ async function historicalRateDetails(state, date, multiline) {
 
 /**
  * Get detailed tax rate information for all states.
- * @customfunction RATESDETAILS
+ * @customfunction RATES_DETAILS
  * @returns {Promise<any[][]>} Array with detailed rate information (one state per row)
- * @example =SLTAX.RATESDETAILS()
+ * @example =SLTAX.RATES_DETAILS()
  * Returns: State | Tax Rate | Stamping Fee | Filing Fee | ...
  */
 async function ratesDetails() {
@@ -633,14 +633,14 @@ async function ratesDetails() {
 // Register functions with Office if available
 if (typeof CustomFunctions !== 'undefined') {
     CustomFunctions.associate('CALCULATE', calculate);
-    CustomFunctions.associate('DETAILS', details);
-    CustomFunctions.associate('WITHPREMIUM', withPremium);
+    CustomFunctions.associate('CALCULATE_DETAILS', details);
+    CustomFunctions.associate('CALCULATE_WITHPREMIUM', withPremium);
     CustomFunctions.associate('RATE', rate);
     CustomFunctions.associate('STATES', states);
     CustomFunctions.associate('RATES', rates);
     CustomFunctions.associate('HISTORICALRATE', historicalRate);
-    CustomFunctions.associate('HISTORICALRATEDETAILS', historicalRateDetails);
-    CustomFunctions.associate('RATESDETAILS', ratesDetails);
+    CustomFunctions.associate('HISTORICALRATE_DETAILS', historicalRateDetails);
+    CustomFunctions.associate('RATES_DETAILS', ratesDetails);
 }
 
 // Export for testing

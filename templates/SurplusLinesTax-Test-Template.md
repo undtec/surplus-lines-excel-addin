@@ -19,11 +19,11 @@ This document describes the Excel test workbook structure that matches the Googl
 | 9 | | | | | |
 | 10 | **Detailed Breakdown** | | | | |
 | 11 | **State** | **Premium** | **Tax** | **Total Due** | |
-| 12 | Texas | 10000 | `=SLTAX.DETAILS(A12, B12)` *(spills to D12)* | | |
+| 12 | Texas | 10000 | `=SLTAX.CALCULATE_DETAILS(A12, B12)` *(spills to D12)* | | |
 | 13 | | | | | |
 | 14 | **Compact View** | | | | |
 | 15 | **State** | **Premium** | **Tax** | **Total Due** | |
-| 16 | California | `=SLTAX.WITHPREMIUM("California", 10000)` *(spills to D16)* | | | |
+| 16 | California | `=SLTAX.CALCULATE_WITHPREMIUM("California", 10000)` *(spills to D16)* | | | |
 
 ---
 
@@ -59,7 +59,7 @@ This document describes the Excel test workbook structure that matches the Googl
 |-----|---|---|---|---|---|---|---|---|---|---|---|
 | 1 | **Complete Rate Details** | | | | | | | | | | |
 | 2 | **State** | **Tax Rate** | **Stamping Fee** | **Filing Fee** | **Service Fee** | **Surcharge** | **Regulatory Fee** | **Fire Marshal** | **SLAS Fee** | **Flat Fee** | **Source** |
-| 3 | `=SLTAX.RATESDETAILS()` *(spills 53 rows × 11 columns)* | | | | | | | | | | |
+| 3 | `=SLTAX.RATES_DETAILS()` *(spills 53 rows × 11 columns)* | | | | | | | | | | |
 
 ---
 
@@ -76,10 +76,10 @@ This document describes the Excel test workbook structure that matches the Googl
 | 7 | | | | |
 | 8 | **Detailed Historical Info** | | | |
 | 9 | State: Texas, Date: 2024-01-01 | | | |
-| 10 | `=SLTAX.HISTORICALRATEDETAILS("Texas", "2024-01-01")` *(spills 15 columns)* | | | |
+| 10 | `=SLTAX.HISTORICALRATE_DETAILS("Texas", "2024-01-01")` *(spills 15 columns)* | | | |
 | 11 | | | | |
 | 12 | **Vertical View (multiline=TRUE)** | | | |
-| 13 | `=SLTAX.HISTORICALRATEDETAILS("Texas", "2024-01-01", TRUE)` *(spills 15 rows)* | | | |
+| 13 | `=SLTAX.HISTORICALRATE_DETAILS("Texas", "2024-01-01", TRUE)` *(spills 15 rows)* | | | |
 
 ---
 
@@ -88,14 +88,14 @@ This document describes the Excel test workbook structure that matches the Googl
 | Excel Function | Google Sheets Function | Description |
 |----------------|------------------------|-------------|
 | `=SLTAX.CALCULATE(state, premium)` | `=CALCULATE_TAX(state, premium)` | Returns total tax amount |
-| `=SLTAX.DETAILS(state, premium, [multiline])` | `=CALCULATE_TAX_DETAILS(state, premium, [multiline])` | Returns [state, premium, tax, due] |
-| `=SLTAX.WITHPREMIUM(state, premium)` | `=CALCULATE_WITH_PREMIUM(state, premium)` | Returns [premium, tax, due] |
+| `=SLTAX.CALCULATE_DETAILS(state, premium, [multiline])` | `=CALCULATE_TAX_DETAILS(state, premium, [multiline])` | Returns [state, premium, tax, due] |
+| `=SLTAX.CALCULATE_WITHPREMIUM(state, premium)` | `=CALCULATE_WITH_PREMIUM(state, premium)` | Returns [premium, tax, due] |
 | `=SLTAX.RATE(state)` | `=GET_TAX_RATE(state)` | Returns tax rate percentage |
 | `=SLTAX.STATES()` | `=GET_STATES()` | Lists all 53 jurisdictions |
 | `=SLTAX.RATES()` | `=GET_RATES()` | Returns [state, rate] × 53 |
-| `=SLTAX.RATESDETAILS()` | `=GET_RATES_DETAILS()` | Returns 11 columns × 53 rows |
+| `=SLTAX.RATES_DETAILS()` | `=GET_RATES_DETAILS()` | Returns 11 columns × 53 rows |
 | `=SLTAX.HISTORICALRATE(state, date)` | `=GET_HISTORICAL_RATE(state, date)` | Returns historical rate |
-| `=SLTAX.HISTORICALRATEDETAILS(state, date, [multiline])` | `=GET_HISTORICAL_RATE_DETAILS(state, date, [multiline])` | Returns 15 columns of historical data |
+| `=SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])` | `=GET_HISTORICAL_RATE_DETAILS(state, date, [multiline])` | Returns 15 columns of historical data |
 
 ---
 

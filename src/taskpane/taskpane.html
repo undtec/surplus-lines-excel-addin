@@ -263,11 +263,11 @@
                     <span class="desc">Calculate total tax amount. Returns a single number.</span>
                 </li>
                 <li>
-                    <code>=SLTAX.DETAILS(state, premium, [multiline])</code>
+                    <code>=SLTAX.CALCULATE_DETAILS(state, premium, [multiline])</code>
                     <span class="desc">Returns [state, premium, total_tax, total_due]. Use TRUE for vertical output.</span>
                 </li>
                 <li>
-                    <code>=SLTAX.WITHPREMIUM(state, premium)</code>
+                    <code>=SLTAX.CALCULATE_WITHPREMIUM(state, premium)</code>
                     <span class="desc">Returns [premium, total_tax, total_due] in 3 cells.</span>
                 </li>
                 <li>
@@ -283,7 +283,7 @@
                     <span class="desc">All states with rates in 2 columns: [state, rate].</span>
                 </li>
                 <li>
-                    <code>=SLTAX.RATESDETAILS()</code>
+                    <code>=SLTAX.RATES_DETAILS()</code>
                     <span class="desc">All states with full fee breakdown (11 columns).</span>
                 </li>
                 <li>
@@ -291,7 +291,7 @@
                     <span class="desc">Get rate for a past date (YYYY-MM-DD format).</span>
                 </li>
                 <li>
-                    <code>=SLTAX.HISTORICALRATEDETAILS(state, date, [multiline])</code>
+                    <code>=SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])</code>
                     <span class="desc">Full historical rate info with effective dates.</span>
                 </li>
             </ul>

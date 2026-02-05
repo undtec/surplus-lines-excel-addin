@@ -60,7 +60,7 @@ def create_test_workbook():
         ws1[f'C{i}'] = f'=SLTAX.CALCULATE(A{i}, B{i})'
 
     # Section 2: Detailed Breakdown
-    ws1['A11'] = "Detailed Breakdown (SLTAX.DETAILS)"
+    ws1['A11'] = "Detailed Breakdown (SLTAX.CALCULATE_DETAILS)"
     ws1['A11'].font = Font(bold=True, size=12)
     ws1.merge_cells('A11:E11')
 
@@ -76,14 +76,14 @@ def create_test_workbook():
 
     ws1['A13'] = "Texas"
     ws1['B13'] = 10000
-    ws1['C13'] = '=SLTAX.DETAILS(A13, B13)'  # Spills to F13
+    ws1['C13'] = '=SLTAX.CALCULATE_DETAILS(A13, B13)'  # Spills to F13
 
     ws1['A14'] = "California"
     ws1['B14'] = 25000
-    ws1['C14'] = '=SLTAX.DETAILS(A14, B14)'
+    ws1['C14'] = '=SLTAX.CALCULATE_DETAILS(A14, B14)'
 
     # Section 3: With Premium
-    ws1['A17'] = "Compact View (SLTAX.WITHPREMIUM)"
+    ws1['A17'] = "Compact View (SLTAX.CALCULATE_WITHPREMIUM)"
     ws1['A17'].font = Font(bold=True, size=12)
     ws1.merge_cells('A17:E17')
 
@@ -96,7 +96,7 @@ def create_test_workbook():
         ws1[f'{col}18'].fill = light_fill
 
     ws1['A19'] = "Florida"
-    ws1['B19'] = '=SLTAX.WITHPREMIUM("Florida", 15000)'  # Spills to D19
+    ws1['B19'] = '=SLTAX.CALCULATE_WITHPREMIUM("Florida", 15000)'  # Spills to D19
 
     # Adjust column widths
     ws1.column_dimensions['A'].width = 15
@@ -166,7 +166,7 @@ def create_test_workbook():
     # =========================================================================
     ws4 = wb.create_sheet("Detailed Rates")
 
-    ws4['A1'] = "Complete Rate Details (SLTAX.RATESDETAILS)"
+    ws4['A1'] = "Complete Rate Details (SLTAX.RATES_DETAILS)"
     ws4['A1'].font = Font(bold=True, size=14)
     ws4.merge_cells('A1:K1')
 
@@ -178,7 +178,7 @@ def create_test_workbook():
         ws4[f'{col}3'].font = subheader_font
         ws4[f'{col}3'].fill = light_fill
 
-    ws4['A4'] = '=SLTAX.RATESDETAILS()'  # Spills 53 rows × 11 columns
+    ws4['A4'] = '=SLTAX.RATES_DETAILS()'  # Spills 53 rows × 11 columns
 
     for i in range(1, 12):
         ws4.column_dimensions[get_column_letter(i)].width = 14
@@ -225,14 +225,14 @@ def create_test_workbook():
         ws5[f'{col}10'].font = subheader_font
         ws5[f'{col}10'].fill = light_fill
 
-    ws5['A11'] = '=SLTAX.HISTORICALRATEDETAILS("Texas", "2024-01-01")'  # Spills 15 columns
+    ws5['A11'] = '=SLTAX.HISTORICALRATE_DETAILS("Texas", "2024-01-01")'  # Spills 15 columns
 
     # Vertical view
     ws5['A14'] = "Historical Rate Details (Vertical - multiline=TRUE)"
     ws5['A14'].font = Font(bold=True, size=12)
     ws5.merge_cells('A14:D14')
 
-    ws5['A15'] = '=SLTAX.HISTORICALRATEDETAILS("Texas", "2024-01-01", TRUE)'  # Spills 15 rows
+    ws5['A15'] = '=SLTAX.HISTORICALRATE_DETAILS("Texas", "2024-01-01", TRUE)'  # Spills 15 rows
 
     ws5.column_dimensions['A'].width = 18
     ws5.column_dimensions['B'].width = 12
@@ -259,14 +259,14 @@ def create_test_workbook():
     # Function documentation - ALL TEXT, no formulas (prefix with apostrophe or just use plain text)
     functions = [
         ("SLTAX.CALCULATE(state, premium)", "Calculate total tax", 'SLTAX.CALCULATE("Texas", 10000)', "503 (number)"),
-        ("SLTAX.DETAILS(state, premium, [multiline])", "Full breakdown", 'SLTAX.DETAILS("CA", 10000)', "state, premium, tax, due"),
-        ("SLTAX.WITHPREMIUM(state, premium)", "Compact breakdown", 'SLTAX.WITHPREMIUM("FL", 15000)', "premium, tax, due"),
+        ("SLTAX.CALCULATE_DETAILS(state, premium, [multiline])", "Full breakdown", 'SLTAX.CALCULATE_DETAILS("CA", 10000)', "state, premium, tax, due"),
+        ("SLTAX.CALCULATE_WITHPREMIUM(state, premium)", "Compact breakdown", 'SLTAX.CALCULATE_WITHPREMIUM("FL", 15000)', "premium, tax, due"),
         ("SLTAX.RATE(state)", "Get tax rate %", 'SLTAX.RATE("California")', "3 (number)"),
         ("SLTAX.STATES()", "List all jurisdictions", "SLTAX.STATES()", "53 state names (vertical)"),
         ("SLTAX.RATES()", "All states with rates", "SLTAX.RATES()", "state, rate (53 rows)"),
-        ("SLTAX.RATESDETAILS()", "All rates with full fees", "SLTAX.RATESDETAILS()", "11 columns x 53 rows"),
+        ("SLTAX.RATES_DETAILS()", "All rates with full fees", "SLTAX.RATES_DETAILS()", "11 columns x 53 rows"),
         ("SLTAX.HISTORICALRATE(state, date)", "Historical rate lookup", 'SLTAX.HISTORICALRATE("Iowa", "2025-06-15")', "0.95 (number)"),
-        ("SLTAX.HISTORICALRATEDETAILS(state, date, [multiline])", "Full historical info", 'SLTAX.HISTORICALRATEDETAILS("TX", "2024-01-01")', "15 columns"),
+        ("SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])", "Full historical info", 'SLTAX.HISTORICALRATE_DETAILS("TX", "2024-01-01")', "15 columns"),
     ]
 
     for i, (func, desc, example, returns) in enumerate(functions, start=4):

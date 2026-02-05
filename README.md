@@ -17,14 +17,14 @@ Calculate surplus lines taxes for all 50 US states directly in Excel using custo
 | Function | Description | Example | Returns |
 |----------|-------------|---------|---------|
 | `SLTAX.CALCULATE(state, premium)` | Calculate total tax | `=SLTAX.CALCULATE("Texas", 10000)` | 503 |
-| `SLTAX.DETAILS(state, premium, [multiline])` | Full breakdown | `=SLTAX.DETAILS("CA", 10000)` | [state, premium, tax, due] |
-| `SLTAX.WITHPREMIUM(state, premium)` | Compact breakdown | `=SLTAX.WITHPREMIUM("FL", 15000)` | [premium, tax, due] |
+| `SLTAX.CALCULATE_DETAILS(state, premium, [multiline])` | Full breakdown | `=SLTAX.CALCULATE_DETAILS("CA", 10000)` | [state, premium, tax, due] |
+| `SLTAX.CALCULATE_WITHPREMIUM(state, premium)` | Compact breakdown | `=SLTAX.CALCULATE_WITHPREMIUM("FL", 15000)` | [premium, tax, due] |
 | `SLTAX.RATE(state)` | Get tax rate % | `=SLTAX.RATE("California")` | 3 |
 | `SLTAX.STATES()` | List all 53 jurisdictions | `=SLTAX.STATES()` | Vertical list |
 | `SLTAX.RATES()` | All states with rates | `=SLTAX.RATES()` | [state, rate] × 53 |
-| `SLTAX.RATESDETAILS()` | All rates with full fees | `=SLTAX.RATESDETAILS()` | 11 columns × 53 rows |
+| `SLTAX.RATES_DETAILS()` | All rates with full fees | `=SLTAX.RATES_DETAILS()` | 11 columns × 53 rows |
 | `SLTAX.HISTORICALRATE(state, date)` | Historical rate lookup | `=SLTAX.HISTORICALRATE("Iowa", "2025-06-15")` | 0.95 |
-| `SLTAX.HISTORICALRATEDETAILS(state, date, [multiline])` | Full historical info | `=SLTAX.HISTORICALRATEDETAILS("TX", "2024-01-01")` | 15 columns |
+| `SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])` | Full historical info | `=SLTAX.HISTORICALRATE_DETAILS("TX", "2024-01-01")` | 15 columns |
 
 **Note:** Functions with `[multiline]` parameter accept an optional TRUE/FALSE. When TRUE, returns data vertically (multiple rows, 1 column). Default is FALSE (horizontal).
 
@@ -89,7 +89,7 @@ Result: **503**
 ### Detailed Breakdown
 
 ```
-=SLTAX.DETAILS("California", 10000)
+=SLTAX.CALCULATE_DETAILS("California", 10000)
 ```
 
 Returns (spills to 4 cells):
@@ -117,7 +117,9 @@ Returns a table of all 53 states with their current tax rates.
 ## Pricing
 
 - **100 free calculations** included when you sign up
-- **$0.01 per calculation** after free tier
+- **$0.38 per calculation** after free tier
+- **$18/month minimum** for active accounts
+- **$50 initial deposit** (credited to your balance)
 - Add credits at [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
 
 ---
