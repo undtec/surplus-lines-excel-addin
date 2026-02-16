@@ -256,52 +256,29 @@
         </div>
 
         <div class="card">
-            <h2>Available Functions (9)</h2>
+            <h2>Available Functions (1)</h2>
             <ul class="functions-list">
                 <li>
-                    <code>=SLTAX.CALCULATE(state, premium)</code>
-                    <span class="desc">Calculate total tax amount. Returns a single number.</span>
-                </li>
-                <li>
-                    <code>=SLTAX.CALCULATE_DETAILS(state, premium, [multiline])</code>
-                    <span class="desc">Returns [state, premium, total_tax, total_due]. Use TRUE for vertical output.</span>
-                </li>
-                <li>
-                    <code>=SLTAX.CALCULATE_WITHPREMIUM(state, premium)</code>
-                    <span class="desc">Returns [premium, total_tax, total_due] in 3 cells.</span>
-                </li>
-                <li>
-                    <code>=SLTAX.RATE(state)</code>
-                    <span class="desc">Get tax rate as percentage (e.g., 4.85 for 4.85%).</span>
-                </li>
-                <li>
-                    <code>=SLTAX.STATES()</code>
-                    <span class="desc">List all 53 jurisdictions (50 states + DC + PR + VI).</span>
-                </li>
-                <li>
-                    <code>=SLTAX.RATES()</code>
-                    <span class="desc">All states with rates in 2 columns: [state, rate].</span>
-                </li>
-                <li>
-                    <code>=SLTAX.RATES_DETAILS()</code>
-                    <span class="desc">All states with full fee breakdown (11 columns).</span>
-                </li>
-                <li>
-                    <code>=SLTAX.HISTORICALRATE(state, date)</code>
-                    <span class="desc">Get rate for a past date (YYYY-MM-DD format).</span>
-                </li>
-                <li>
-                    <code>=SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])</code>
-                    <span class="desc">Full historical rate info with effective dates.</span>
+                    <code>=SLTAX.SLAPI(calculationType, effectiveDate, stateCode, premiumAmount)</code>
+                    <span class="desc">Unified function for tax calculations and rate lookups. Use "Tax" or "Rate" for calculationType.</span>
                 </li>
             </ul>
         </div>
 
         <div class="card">
-            <h2>Quick Test</h2>
-            <p style="font-size: 12px; color: #718096; margin-bottom: 12px;">Try this formula in any cell:</p>
-            <code style="display: block; background: #edf2f7; padding: 12px; border-radius: 6px; font-size: 13px;">=SLTAX.CALCULATE("Texas", 10000)</code>
-            <p style="font-size: 12px; color: #718096; margin-top: 8px;">Expected result: <strong>503</strong></p>
+            <h2>Examples</h2>
+
+            <p style="font-size: 13px; font-weight: 600; color: #2d3748; margin-bottom: 8px;">Calculate Tax (Current Rates):</p>
+            <code style="display: block; background: #edf2f7; padding: 12px; border-radius: 6px; font-size: 12px; margin-bottom: 4px;">=SLTAX.SLAPI("Tax", "", "Texas", 10000)</code>
+            <p style="font-size: 11px; color: #718096; margin-bottom: 16px;">Returns 2 rows: Base Tax, Stamping Fee</p>
+
+            <p style="font-size: 13px; font-weight: 600; color: #2d3748; margin-bottom: 8px;">Get Current Rate:</p>
+            <code style="display: block; background: #edf2f7; padding: 12px; border-radius: 6px; font-size: 12px; margin-bottom: 4px;">=SLTAX.SLAPI("Rate", "", "Florida")</code>
+            <p style="font-size: 11px; color: #718096; margin-bottom: 16px;">Returns 9 rows: all fee fields</p>
+
+            <p style="font-size: 13px; font-weight: 600; color: #2d3748; margin-bottom: 8px;">Historical with Fallback:</p>
+            <code style="display: block; background: #edf2f7; padding: 12px; border-radius: 6px; font-size: 12px; margin-bottom: 4px;">=SLTAX.SLAPI("Tax", "2020-01-01", "Texas", 10000)</code>
+            <p style="font-size: 11px; color: #718096;">Returns 2-4 rows (includes fallback notice if historical data unavailable)</p>
         </div>
 
         <div class="footer">

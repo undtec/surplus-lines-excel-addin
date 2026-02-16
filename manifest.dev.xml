@@ -8,11 +8,11 @@
 
   <!-- Basic Settings -->
   <Id>a1b2c3d4-e5f6-7890-abcd-ef1234567890</Id>
-  <Version>1.1.0.0</Version>
+  <Version>2.0.0.0</Version>
   <ProviderName>Underwriters Technologies</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Surplus Lines Tax (Dev)"/>
-  <Description DefaultValue="Calculate surplus lines taxes for all 50 US states directly in Excel. Use custom functions like =SLTAX.CALCULATE(&quot;Texas&quot;, 10000) to get instant tax calculations."/>
+  <Description DefaultValue="Calculate surplus lines taxes for all 50 US states directly in Excel v2.0. Use =SLTAX.SLAPI(&quot;Tax&quot;, &quot;&quot;, &quot;Texas&quot;, 10000) with automatic fallback for historical data."/>
   <IconUrl DefaultValue="https://localhost:3001/assets/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3001/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://surpluslinesapi.com/docs/"/>
@@ -116,7 +116,7 @@
         <bt:String id="TaskpaneButton.Label" DefaultValue="Settings"/>
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Calculate surplus lines taxes for all 50 US states using custom formulas. Type =SLTAX.CALCULATE(&quot;Texas&quot;, 10000) to get started!"/>
+        <bt:String id="GetStarted.Description" DefaultValue="Calculate surplus lines taxes for all 50 US states using the SLAPI function. Type =SLTAX.SLAPI(&quot;Tax&quot;, &quot;&quot;, &quot;Texas&quot;, 10000) to get started!"/>
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open settings to configure your API key"/>
       </bt:LongStrings>
     </Resources>

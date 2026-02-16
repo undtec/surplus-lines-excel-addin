@@ -2,233 +2,37 @@
   "allowCustomDataForDataTypeAny": true,
   "functions": [
     {
-      "id": "CALCULATE",
-      "name": "CALCULATE",
-      "description": "Calculate surplus lines tax for a given state and premium amount",
-      "helpUrl": "https://surpluslinesapi.com/excel/#calculate",
+      "id": "SLAPI",
+      "name": "SLAPI",
+      "description": "Calculate surplus lines tax or get tax rates for a state. Supports both current and historical data with automatic fallback.",
+      "helpUrl": "https://surpluslinesapi.com/excel/#slapi",
       "parameters": [
         {
-          "name": "state",
-          "description": "State name (e.g., \"Texas\", \"California\") or abbreviation (e.g., \"TX\", \"CA\")",
+          "name": "calculationType",
+          "description": "Calculation Type: \"Tax\" or \"Rate\"",
           "type": "string",
           "dimensionality": "scalar"
         },
         {
-          "name": "premium",
-          "description": "Premium amount in dollars",
-          "type": "number",
-          "dimensionality": "scalar"
-        }
-      ],
-      "result": {
-        "type": "any",
-        "dimensionality": "scalar"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "CALCULATE_DETAILS",
-      "name": "CALCULATE_DETAILS",
-      "description": "Get detailed tax breakdown: state, premium, total tax, and total due",
-      "helpUrl": "https://surpluslinesapi.com/excel/#calculate-details",
-      "parameters": [
-        {
-          "name": "state",
-          "description": "State name or abbreviation",
+          "name": "effectiveDate",
+          "description": "Date in YYYY-MM-DD format (optional, use \"\" for current rates)",
           "type": "string",
           "dimensionality": "scalar"
         },
         {
-          "name": "premium",
-          "description": "Premium amount in dollars",
-          "type": "number",
+          "name": "stateCode",
+          "description": "State name (e.g., \"Florida\") or code (e.g., \"FL\")",
+          "type": "string",
           "dimensionality": "scalar"
         },
         {
-          "name": "multiline",
-          "description": "If TRUE, returns data in multiple rows; if FALSE (default), returns in one row",
-          "type": "boolean",
+          "name": "premiumAmount",
+          "description": "Premium amount in dollars (required for \"Tax\", ignored for \"Rate\")",
+          "type": "number",
           "dimensionality": "scalar",
           "optional": true
         }
       ],
-      "result": {
-        "type": "any",
-        "dimensionality": "matrix"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "CALCULATE_WITHPREMIUM",
-      "name": "CALCULATE_WITHPREMIUM",
-      "description": "Calculate tax and return premium, total_tax, and total_due in a row",
-      "helpUrl": "https://surpluslinesapi.com/excel/#calculate-withpremium",
-      "parameters": [
-        {
-          "name": "state",
-          "description": "State name or abbreviation",
-          "type": "string",
-          "dimensionality": "scalar"
-        },
-        {
-          "name": "premium",
-          "description": "Premium amount in dollars",
-          "type": "number",
-          "dimensionality": "scalar"
-        }
-      ],
-      "result": {
-        "type": "any",
-        "dimensionality": "matrix"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "RATE",
-      "name": "RATE",
-      "description": "Get the surplus lines tax rate for a specific state",
-      "helpUrl": "https://surpluslinesapi.com/excel/#rate",
-      "parameters": [
-        {
-          "name": "state",
-          "description": "State name (e.g., \"Texas\") or abbreviation (e.g., \"TX\")",
-          "type": "string",
-          "dimensionality": "scalar"
-        }
-      ],
-      "result": {
-        "type": "any",
-        "dimensionality": "scalar"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "STATES",
-      "name": "STATES",
-      "description": "Get list of all 53 supported jurisdictions (50 states + DC + Puerto Rico + Virgin Islands)",
-      "helpUrl": "https://surpluslinesapi.com/excel/#states",
-      "parameters": [],
-      "result": {
-        "type": "string",
-        "dimensionality": "matrix"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "RATES",
-      "name": "RATES",
-      "description": "Get tax rates for all states (returns state name and rate percentage)",
-      "helpUrl": "https://surpluslinesapi.com/excel/#rates",
-      "parameters": [],
-      "result": {
-        "type": "any",
-        "dimensionality": "matrix"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "HISTORICALRATE",
-      "name": "HISTORICALRATE",
-      "description": "Get historical tax rate for a specific state and date",
-      "helpUrl": "https://surpluslinesapi.com/excel/#historicalrate",
-      "parameters": [
-        {
-          "name": "state",
-          "description": "State name (e.g., \"Texas\", \"Iowa\")",
-          "type": "string",
-          "dimensionality": "scalar"
-        },
-        {
-          "name": "date",
-          "description": "Date in YYYY-MM-DD format (e.g., \"2025-06-15\") - required",
-          "type": "any",
-          "dimensionality": "scalar"
-        }
-      ],
-      "result": {
-        "type": "any",
-        "dimensionality": "scalar"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "HISTORICALRATE_DETAILS",
-      "name": "HISTORICALRATE_DETAILS",
-      "description": "Get detailed historical tax rate information including all fees and effective dates",
-      "helpUrl": "https://surpluslinesapi.com/excel/#historicalrate-details",
-      "parameters": [
-        {
-          "name": "state",
-          "description": "State name (e.g., \"Texas\", \"Iowa\")",
-          "type": "string",
-          "dimensionality": "scalar"
-        },
-        {
-          "name": "date",
-          "description": "Date in YYYY-MM-DD format (e.g., \"2025-06-15\")",
-          "type": "any",
-          "dimensionality": "scalar"
-        },
-        {
-          "name": "multiline",
-          "description": "If TRUE, returns data in multiple rows; if FALSE (default), returns in one row",
-          "type": "boolean",
-          "dimensionality": "scalar",
-          "optional": true
-        }
-      ],
-      "result": {
-        "type": "any",
-        "dimensionality": "matrix"
-      },
-      "options": {
-        "requiresAddress": false,
-        "stream": false,
-        "volatile": false,
-        "requiresParameterAddresses": false
-      }
-    },
-    {
-      "id": "RATES_DETAILS",
-      "name": "RATES_DETAILS",
-      "description": "Get detailed tax rate information for all states including all fees",
-      "helpUrl": "https://surpluslinesapi.com/excel/#rates-details",
-      "parameters": [],
       "result": {
         "type": "any",
         "dimensionality": "matrix"

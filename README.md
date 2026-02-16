@@ -1,32 +1,102 @@
-# Surplus Lines Tax API - Excel Add-in
+# Surplus Lines Tax API - Excel Add-in v2.0
 
-Calculate surplus lines taxes for all 50 US states directly in Excel using custom functions.
+Calculate surplus lines taxes for all 50 US states directly in Excel using a single custom function. Automatic fallback for historical data.
+
+## What's New in v2.0
+
+⚡ **Simplified to ONE function**: `SLAPI()` handles both tax calculations and rate lookups
+⚡ **Automatic fallback**: When historical data is unavailable, automatically uses current rates with clear notification
+⚡ **Cost savings**: No more accidental bulk queries - only pay for what you need ($0.38 per query)
+⚡ **Consistent API**: Same function signature across Excel, Google Sheets, n8n, Zapier, Make, and MCP integrations
 
 ## Features
 
-✅ **Custom Functions** - Use formulas like `=SLTAX.CALCULATE("Texas", 10000)`
-✅ **Works like native Excel** - Autocomplete, formula bar support
+✅ **Single Function** - Use `=SLTAX.SLAPI("Tax", "", "Texas", 10000)` for all operations
+✅ **Works like native Excel** - Autocomplete, formula bar support, spilling arrays
 ✅ **All 53 Jurisdictions** - 50 states + DC + Puerto Rico + Virgin Islands
-✅ **Historical Rates** - Look up rates from any date
+✅ **Historical Rates** - Look up rates from any date with automatic fallback
 ✅ **Real-time API** - Always current tax rates
 
 ---
 
-## Available Functions (9)
+## The SLAPI Function
 
-| Function | Description | Example | Returns |
-|----------|-------------|---------|---------|
-| `SLTAX.CALCULATE(state, premium)` | Calculate total tax | `=SLTAX.CALCULATE("Texas", 10000)` | 503 |
-| `SLTAX.CALCULATE_DETAILS(state, premium, [multiline])` | Full breakdown | `=SLTAX.CALCULATE_DETAILS("CA", 10000)` | [state, premium, tax, due] |
-| `SLTAX.CALCULATE_WITHPREMIUM(state, premium)` | Compact breakdown | `=SLTAX.CALCULATE_WITHPREMIUM("FL", 15000)` | [premium, tax, due] |
-| `SLTAX.RATE(state)` | Get tax rate % | `=SLTAX.RATE("California")` | 3 |
-| `SLTAX.STATES()` | List all 53 jurisdictions | `=SLTAX.STATES()` | Vertical list |
-| `SLTAX.RATES()` | All states with rates | `=SLTAX.RATES()` | [state, rate] × 53 |
-| `SLTAX.RATES_DETAILS()` | All rates with full fees | `=SLTAX.RATES_DETAILS()` | 11 columns × 53 rows |
-| `SLTAX.HISTORICALRATE(state, date)` | Historical rate lookup | `=SLTAX.HISTORICALRATE("Iowa", "2025-06-15")` | 0.95 |
-| `SLTAX.HISTORICALRATE_DETAILS(state, date, [multiline])` | Full historical info | `=SLTAX.HISTORICALRATE_DETAILS("TX", "2024-01-01")` | 15 columns |
+Single unified function for tax calculations and rate lookups.
 
-**Note:** Functions with `[multiline]` parameter accept an optional TRUE/FALSE. When TRUE, returns data vertically (multiple rows, 1 column). Default is FALSE (horizontal).
+### Syntax
+
+```
+=SLTAX.SLAPI(Calculation_Type, Effective_Date, State_Code, Premium_Amount)
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `Calculation_Type` | Text | Yes | "Tax" or "Rate" |
+| `Effective_Date` | Text | No | Date in YYYY-MM-DD format, or "" for current rates |
+| `State_Code` | Text | Yes | State name (e.g., "Florida") or code (e.g., "FL") |
+| `Premium_Amount` | Number | For Tax | Premium amount in dollars (required for "Tax", ignored for "Rate") |
+
+### Examples
+
+**Calculate Tax (Current Rates)**
+```
+=SLTAX.SLAPI("Tax", "", "Florida", 10000)
+```
+Returns (2 rows):
+```
+Base Tax      | 494
+Stamping Fee  | 6
+```
+
+**Calculate Tax (Historical with Fallback)**
+```
+=SLTAX.SLAPI("Tax", "2020-01-01", "Texas", 10000)
+```
+Returns (if historical data not found - 4 rows):
+```
+Base Tax      | 485
+Stamping Fee  | 5
+⚠️ Notice     | No historical data available for 2020-01-01
+Rates From    | current
+```
+
+**Get Current Rates**
+```
+=SLTAX.SLAPI("Rate", "", "Florida")
+```
+Returns (9 rows):
+```
+tax_rate                  | 4.94%
+stamping_fee             |
+filing_fee               |
+service_fee              | 0.06%
+surcharge                |
+regulatory_fee           |
+fire_marshal_tax         |
+slas_clearinghouse_fee   |
+flat_fee                 |
+```
+
+**Get Historical Rates (with Fallback)**
+```
+=SLTAX.SLAPI("Rate", "2020-01-01", "Texas")
+```
+Returns (if historical data not found - 11 rows):
+```
+tax_rate                  | 4.85%
+stamping_fee             | 0.05%
+filing_fee               |
+service_fee              |
+surcharge                |
+regulatory_fee           |
+fire_marshal_tax         |
+slas_clearinghouse_fee   |
+flat_fee                 |
+⚠️ Notice                 | No historical data available for 2020-01-01
+Rates From               | current
+```
 
 ---
 
@@ -55,7 +125,7 @@ Calculate surplus lines taxes for all 50 US states directly in Excel using custo
 ### Step 1: Get Your API Key
 
 1. Go to [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
-2. Sign in or create an account
+2. Sign in or create an account (100 free queries included)
 3. Copy your API key from the dashboard
 
 ### Step 2: Configure the Add-in
@@ -69,157 +139,131 @@ Calculate surplus lines taxes for all 50 US states directly in Excel using custo
 Type a formula in any cell:
 
 ```
-=SLTAX.CALCULATE("Texas", 10000)
+=SLTAX.SLAPI("Tax", "", "Texas", 10000)
 ```
 
-Result: **503**
+Result (spills to 2 cells):
+```
+Base Tax      | 485
+Stamping Fee  | 5
+```
 
 ---
 
 ## Usage Examples
 
-### Simple Tax Calculation
+### Simple Tax Calculation Spreadsheet
+
+| A | B | C | D | E |
+|---|---|---|---|---|
+| **State** | **Premium** | **Formula** | **Base Tax** | **Stamping Fee** |
+| Texas | 10000 | `=SLTAX.SLAPI("Tax", "", A2, B2)` | (spills) | (spills) |
+| California | 25000 | `=SLTAX.SLAPI("Tax", "", A3, B3)` | (spills) | (spills) |
+
+### Rate Lookup Table
 
 | A | B | C |
 |---|---|---|
-| **State** | **Premium** | **Tax** |
-| Texas | 10000 | `=SLTAX.CALCULATE(A2, B2)` |
-| California | 25000 | `=SLTAX.CALCULATE(A3, B3)` |
+| **State** | **Formula** | **Rates** |
+| Florida | `=SLTAX.SLAPI("Rate", "", A2)` | (9 rows spill) |
+| Texas | `=SLTAX.SLAPI("Rate", "", A3)` | (9 rows spill) |
 
-### Detailed Breakdown
+### Historical Comparison
 
-```
-=SLTAX.CALCULATE_DETAILS("California", 10000)
-```
-
-Returns (spills to 4 cells):
-| California | 10000 | 318 | 10318 |
-|------------|-------|-----|-------|
-
-### Historical Rate Lookup
-
-```
-=SLTAX.HISTORICALRATE("Iowa", "2025-06-15")
-```
-
-Returns: **0.95** (Iowa's rate during 2025)
-
-### Get All Rates
-
-```
-=SLTAX.RATES()
-```
-
-Returns a table of all 53 states with their current tax rates.
+| A | B | C | D |
+|---|---|---|---|
+| **State** | **Date** | **Formula** | **Results** |
+| Iowa | 2024-06-15 | `=SLTAX.SLAPI("Rate", B2, A2)` | (9-11 rows) |
+| Iowa | 2025-06-15 | `=SLTAX.SLAPI("Rate", B3, A3)` | (9-11 rows) |
 
 ---
 
-## Pricing
+## Breaking Changes from v1.x
 
-- **100 free calculations** included when you sign up
-- **$0.38 per calculation** after free tier
-- **$18/month minimum** for active accounts
-- **$50 initial deposit** (credited to your balance)
-- Add credits at [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
+### Removed Functions
+
+All 8 previous functions have been consolidated into the single `SLAPI` function:
+
+- ❌ `SLTAX.CALCULATE` → Use `SLAPI("Tax", "", state, premium)`
+- ❌ `SLTAX.CALCULATE_DETAILS` → Use `SLAPI("Tax", "", state, premium)`
+- ❌ `SLTAX.CALCULATE_WITHPREMIUM` → Use `SLAPI("Tax", "", state, premium)`
+- ❌ `SLTAX.RATE` → Use `SLAPI("Rate", "", state)`
+- ❌ `SLTAX.STATES` → Removed (free data, use static list)
+- ❌ `SLTAX.RATES` → Removed (bulk query too expensive)
+- ❌ `SLTAX.HISTORICALRATE` → Use `SLAPI("Rate", date, state)`
+- ❌ `SLTAX.HISTORICALRATE_DETAILS` → Use `SLAPI("Rate", date, state)`
+- ❌ `SLTAX.RATES_DETAILS` → Removed (bulk query too expensive)
+
+### Migration Examples
+
+```excel
+// Old v1.x - Calculate tax
+=SLTAX.CALCULATE("Texas", 10000)
+
+// New v2.0
+=SLTAX.SLAPI("Tax", "", "Texas", 10000)
+
+// Old v1.x - Get current rate
+=SLTAX.RATE("California")
+
+// New v2.0
+=SLTAX.SLAPI("Rate", "", "California")
+
+// Old v1.x - Get historical rate
+=SLTAX.HISTORICALRATE("Iowa", "2024-06-15")
+
+// New v2.0
+=SLTAX.SLAPI("Rate", "2024-06-15", "Iowa")
+```
 
 ---
 
-## Development
+## Development & Testing
 
-### Prerequisites
+See [TESTING.md](TESTING.md) for detailed instructions on development and testing workflows.
 
-- Node.js 18+
-- npm or yarn
-- Excel 2016+ or Microsoft 365
-
-### Local Development
+### Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/undtec/surplus-lines-excel-addin.git
-cd surplus-lines-excel-addin
-
 # Install dependencies
 npm install
 
-# Start dev server
+# Build the add-in
+npm run build
+
+# Start development server (localhost:3001)
 npm run dev-server
 
 # In another terminal, sideload the add-in
-npm run start:desktop
+npm run sideload
 ```
 
-### Building for Production
+### Manifest Files
 
-```bash
-npm run build
-```
-
-Output files are in the `dist/` directory.
-
-### Project Structure
-
-```
-excel-addin/
-├── manifest.xml              # Add-in manifest
-├── package.json              # Dependencies & scripts
-├── webpack.config.js         # Build configuration
-├── src/
-│   ├── functions/
-│   │   ├── functions.js      # Custom function implementations
-│   │   ├── functions.json    # Function metadata
-│   │   └── functions.html    # Functions host page
-│   ├── taskpane/
-│   │   ├── taskpane.html     # Settings UI
-│   │   └── taskpane.js       # Taskpane logic
-│   └── commands/
-│       └── commands.html     # Ribbon commands host
-├── assets/                   # Icons and images
-└── dist/                     # Build output
-```
+- **`manifest.xml`** - Production manifest (for Office Store submission)
+- **`manifest.dev.xml`** - Local development (`https://localhost:3001`)
+- **`manifest.network.xml`** - Network testing (`https://192.168.0.106:3001`)
 
 ---
 
 ## Support
 
-- **Documentation:** [surpluslinesapi.com/excel/](https://surpluslinesapi.com/excel/)
-- **API Dashboard:** [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
-- **Email:** support@undtec.com
-- **Free Calculator:** [sltax.undtec.com](https://sltax.undtec.com)
+- **Documentation**: https://surpluslinesapi.com/excel/
+- **API Dashboard**: https://app.surpluslinesapi.com
+- **Support**: support@undtec.com
 
 ---
 
-## Troubleshooting
+## Pricing
 
-### "API key not configured"
+- **100 free queries** included with new accounts
+- **$0.38 per query** after free tier
+- No monthly fees, only pay for what you use
 
-Open the Settings panel and enter your API key from [app.surpluslinesapi.com](https://app.surpluslinesapi.com).
-
-### Functions not appearing
-
-1. Make sure the add-in is loaded (check Insert → Add-ins)
-2. Try restarting Excel
-3. Type `=SLTAX.` and check if autocomplete appears
-
-### "Invalid API key"
-
-Verify your API key is correct and your account is active.
-
-### "#VALUE!" error
-
-Check that:
-- State name is valid (use full names like "Texas", not "TX")
-- Premium is a positive number
-- You have API credits remaining
+Get your API key: [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
 
 ---
 
-## License
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
----
-
-**Surplus Lines Tax API** is a product of [Underwriters Technologies](https://undtec.com)
-
-Build: 1.1.0 | 2026-02-02
+**Version**: 2.0.0
+**Last Updated**: 2026-02-16
+**© Underwriters Technologies** - https://undtec.com

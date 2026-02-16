@@ -1,7 +1,7 @@
 {
   "name": "surplus-lines-tax-excel-addin",
-  "version": "1.0.0",
-  "description": "Excel Add-in for Surplus Lines Tax calculations - custom functions for all 50 US states",
+  "version": "2.0.0",
+  "description": "Excel Add-in for Surplus Lines Tax calculations v2.0 - single SLAPI function with automatic fallback",
   "main": "src/functions/functions.js",
   "author": "Underwriters Technologies <support@undtec.com>",
   "license": "MIT",
