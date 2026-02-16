@@ -1,13 +1,6 @@
-# Surplus Lines Tax API - Excel Add-in v2.0
+# Surplus Lines Tax API - Excel Add-in
 
-Calculate surplus lines taxes for all 50 US states directly in Excel using a single custom function. Automatic fallback for historical data.
-
-## What's New in v2.0
-
-⚡ **Simplified to ONE function**: `SLAPI()` handles both tax calculations and rate lookups
-⚡ **Automatic fallback**: When historical data is unavailable, automatically uses current rates with clear notification
-⚡ **Cost savings**: No more accidental bulk queries - only pay for what you need ($0.38 per query)
-⚡ **Consistent API**: Same function signature across Excel, Google Sheets, n8n, Zapier, Make, and MCP integrations
+Calculate surplus lines taxes for all 50 US states directly in Excel using a single custom function with automatic historical data fallback.
 
 ## Features
 
@@ -178,46 +171,6 @@ Stamping Fee  | 5
 
 ---
 
-## Breaking Changes from v1.x
-
-### Removed Functions
-
-All 8 previous functions have been consolidated into the single `SLAPI` function:
-
-- ❌ `SLTAX.CALCULATE` → Use `SLAPI("Tax", "", state, premium)`
-- ❌ `SLTAX.CALCULATE_DETAILS` → Use `SLAPI("Tax", "", state, premium)`
-- ❌ `SLTAX.CALCULATE_WITHPREMIUM` → Use `SLAPI("Tax", "", state, premium)`
-- ❌ `SLTAX.RATE` → Use `SLAPI("Rate", "", state)`
-- ❌ `SLTAX.STATES` → Removed (free data, use static list)
-- ❌ `SLTAX.RATES` → Removed (bulk query too expensive)
-- ❌ `SLTAX.HISTORICALRATE` → Use `SLAPI("Rate", date, state)`
-- ❌ `SLTAX.HISTORICALRATE_DETAILS` → Use `SLAPI("Rate", date, state)`
-- ❌ `SLTAX.RATES_DETAILS` → Removed (bulk query too expensive)
-
-### Migration Examples
-
-```excel
-// Old v1.x - Calculate tax
-=SLTAX.CALCULATE("Texas", 10000)
-
-// New v2.0
-=SLTAX.SLAPI("Tax", "", "Texas", 10000)
-
-// Old v1.x - Get current rate
-=SLTAX.RATE("California")
-
-// New v2.0
-=SLTAX.SLAPI("Rate", "", "California")
-
-// Old v1.x - Get historical rate
-=SLTAX.HISTORICALRATE("Iowa", "2024-06-15")
-
-// New v2.0
-=SLTAX.SLAPI("Rate", "2024-06-15", "Iowa")
-```
-
----
-
 ## Development & Testing
 
 See [TESTING.md](TESTING.md) for detailed instructions on development and testing workflows.
@@ -264,6 +217,4 @@ Get your API key: [app.surpluslinesapi.com](https://app.surpluslinesapi.com)
 
 ---
 
-**Version**: 2.0.0
-**Last Updated**: 2026-02-16
 **© Underwriters Technologies** - https://undtec.com
