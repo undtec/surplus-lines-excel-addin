@@ -1,0 +1,48 @@
+{
+  "allowCustomDataForDataTypeAny": true,
+  "functions": [
+    {
+      "id": "SLAPI",
+      "name": "SLAPI",
+      "description": "Calculate surplus lines tax or get tax rates for a state. Supports both current and historical data with automatic fallback.",
+      "helpUrl": "https://surpluslinesapi.com/excel/#slapi",
+      "parameters": [
+        {
+          "name": "calculationType",
+          "description": "Calculation Type: \"Tax\" or \"Rate\"",
+          "type": "string",
+          "dimensionality": "scalar"
+        },
+        {
+          "name": "effectiveDate",
+          "description": "Date in YYYY-MM-DD format (optional, use \"\" for current rates)",
+          "type": "string",
+          "dimensionality": "scalar"
+        },
+        {
+          "name": "stateCode",
+          "description": "State name (e.g., \"Florida\") or code (e.g., \"FL\")",
+          "type": "string",
+          "dimensionality": "scalar"
+        },
+        {
+          "name": "premiumAmount",
+          "description": "Premium amount in dollars (required for \"Tax\", ignored for \"Rate\")",
+          "type": "number",
+          "dimensionality": "scalar",
+          "optional": true
+        }
+      ],
+      "result": {
+        "type": "any",
+        "dimensionality": "matrix"
+      },
+      "options": {
+        "requiresAddress": false,
+        "stream": false,
+        "volatile": false,
+        "requiresParameterAddresses": false
+      }
+    }
+  ]
+}

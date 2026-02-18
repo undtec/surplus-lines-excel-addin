@@ -14,7 +14,7 @@
 // CONFIGURATION
 // ============================================================================
 
-const API_BASE_URL = 'https://n8n.undtec.com/webhook/slapi/v1';
+const API_BASE_URL = 'https://api.surpluslinesapi.com/v1';
 
 /**
  * Get API key from Office settings or storage
